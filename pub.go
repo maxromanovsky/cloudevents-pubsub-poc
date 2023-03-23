@@ -22,8 +22,17 @@ func main() {
 	}
 
 	e := cloudevents.NewEvent()
+	e.SetID("42")
+	e.SetSubject("max")
 	e.SetSource("athena")
 	e.SetType("authn")
+
+	//Set custom attribute
+	if err := e.Context.SetExtension("transactionid", "dummy_txn_id"); err != nil {
+		log.Printf("failed to set custom attribute: %s", err)
+		os.Exit(1)
+	}
+
 	e.SetData(cloudevents.ApplicationJSON, "foo")
 
 	t, err := cepubsub.New(context.Background(),
