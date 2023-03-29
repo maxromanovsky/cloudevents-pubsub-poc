@@ -68,7 +68,9 @@ func main() {
 	// Send event
 	t, err := cepubsub.New(context.Background(),
 		cepubsub.WithProjectID(env.ProjectID),
-		cepubsub.WithTopicID(env.TopicID))
+		cepubsub.WithTopicID(env.TopicID),
+		cepubsub.AllowCreateTopic(false),
+	)
 	if err != nil {
 		log.Printf("failed to create pubsub transport, %s", err.Error())
 		os.Exit(1)
